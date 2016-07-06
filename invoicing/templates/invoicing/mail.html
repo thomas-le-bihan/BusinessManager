@@ -1,0 +1,14 @@
+{% extends 'admin/base_site.html' %}
+
+
+{% block content %}
+
+    <form method="POST">{% csrf_token %}
+        <p>Are you sure to send invoice to  <strong>{{ mail }}</strong> ? </p>
+        <input type="hidden" name="mail" value="{{ mail }}">
+        <input type="hidden" name="invoice_id" value="{{ invoice_id }}">
+        <input type="submit" name="submit" value="Send">
+        <input type="submit" name="submit" value="Cancel">
+    </form>
+
+{% endblock %}

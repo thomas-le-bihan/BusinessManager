@@ -1,0 +1,17 @@
+{% extends 'admin/base_site.html' %}
+
+
+{% block content %}
+
+    <form method="POST" action="{% url 'pay_invoice' %}">{% csrf_token %}
+        <table>
+            {{ simpleinvoice_form.as_table }}
+            {{ simpleaccount_form.as_table }}
+            {{ payment_form.as_table }}
+            <tr>
+                <td><input type="submit" value="Save"></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

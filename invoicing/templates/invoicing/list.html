@@ -1,0 +1,50 @@
+{% extends 'admin/base_site.html' %}
+
+
+{% block content %}
+
+    <form method="GET" action="{% url 'pay_invoice' %}">{% csrf_token %}
+        <div>
+            <a href="{% url 'edit_invoice' %}" class="button">New</a>
+            <input type="submit" value="Pay">
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <th>Select</th>
+                    <th>Invoice ID</th>
+                    <th>Type</th>
+                    <th>Invoice number</th>
+                    <th>Status</th>
+                    <th>Contact name</th>
+                    <th>Total</th>
+                    <th>PDF</th>
+                    <th>Mail PDF</th>
+                </tr>
+                {% for invoice in invoices %}
+                    <tr>
+                        <td><input type="radio" name="selected_invoice" value="{{ invoice.InvoiceID }}"></td>
+                        <td><a href="{% url 'edit_invoice' %}?invoice_id={{ invoice.InvoiceID }}">{{ invoice.InvoiceID }}</a></td>
+                        <td>{{ invoice.Type }}</td>
+                        <td>{{ invoice.InvoiceNumber }}</td>
+                        <td>{{ invoice.Status }}</td>
+                        <td>{{ invoice.Contact.Name }}</td>
+                        <td>{{ invoice.Total }} {{ invoice.CurrencyCode }}</td>
+                        <td><a href='{% url 'pdf_invoice' %}?invoice_id={{ invoice.InvoiceID }}'>Download</a></td>
+                        <td><a href='{% url 'mail_invoice' %}?invoice_id={{ invoice.InvoiceID }}'>Mail it</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p class="paginator">
+                {% for page in page_list %}
+                    {% if page == invoices.number %}
+                        <span class="this-page">{{ page }}</span>
+                    {% else %}
+                        <a href="{% url 'list_invoice' %}?page={{ page }}">{{ page }}</a>
+                    {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </form>
+{% endblock %}

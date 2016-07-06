@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="{% url 'list_invoice' %}">Home</a>
+    {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+{% endblock %}
+
+
+{% block extrahead %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <!-- Add JQuery to all admin pages -->
+    <script src="{% static "invoicing/js/jquery-2.2.4.min.js" %}"></script>
+    <script src="{% static "admin/js/jquery.init.js" %}"></script>
+
+    <!-- Import admin css and js to add admin like calendar to DateFields
+    -->
+    <script type="text/javascript" src="/my_admin/jsi18n/"></script>
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}" />
+{% endblock %}
+

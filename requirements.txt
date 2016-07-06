@@ -1,0 +1,9 @@
+Django==1.9.2
+oauthlib==0.7.2
+pycrypto==2.6.1
+PyJWT==1.4.0
+python-dateutil==2.5.3
+pyxero==0.8.0
+requests==2.10.0
+requests-oauthlib==0.6.1
+six==1.10.0

@@ -1,0 +1,70 @@
+{% extends 'admin/base_site.html' %}
+{% load i18n admin_static %}
+
+
+{% block content %}
+    <form method="POST" action="{% url 'edit_invoice' %}">{% csrf_token %}
+        <table>
+
+            <tr><td><h2>Invoice informations</h2></td></tr>
+            {{ invoice_form.as_table }}
+            {{ contact_form.as_table }}
+
+            <tr><td><h2>Addresses</h2></td></tr>
+            {% for form in address_formset %}
+                <tr><td><h3>Address {{ forloop.counter }}</h3></td></tr>
+                {{ form.as_table }}
+                {% if forloop.last %}
+                    <input name="nb_address" type="hidden" value="{{ forloop.counter }}">
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td><input name="addaddress" type="submit" value="Add address"></td>
+            </tr>
+
+
+            <tr><td><h2>Items</h2></td></tr>
+            {% for form in lineitem_formset %}
+                <tr>
+                    <td><h3>Item {{ forloop.counter }}</h3></td>
+                </tr>
+                {{ form.as_table }}
+                <tr><td></td></tr>
+                {% if forloop.last %}
+                    <input name="nb_item" type="hidden" value="{{ forloop.counter }}">
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td><input name="additem" type="submit" value="Add item"></td>
+            </tr>
+
+
+            <tr class="submit-row">
+                <td></td>
+                <td>
+                    <input name="save" type="submit" value="SAVE" class="default">
+                    {% if invoice_form.InvoiceID.data != None %}
+                        <a href="{% url 'pdf_invoice' %}?invoice_id={{ invoice_form.InvoiceID.data }}" class="button">Download PDF</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    <script type="text/javascript">
+
+        django.jQuery(document).ready(function(){
+
+            django.jQuery( "#id_Type").change(function(evt){
+                var val = django.jQuery(this).val();
+                if(val == "ACCREC"){
+                    django.jQuery( "#id_Reference" ).attr("disabled", "true");
+                    django.jQuery( "#id_Reference" ).val("");
+                }else{
+                    django.jQuery( "#id_Reference" ).removeAttr("disabled");
+                }
+            });
+        });
+    </script>
+{% endblock %}
